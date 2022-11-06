@@ -1,14 +1,23 @@
-import express from 'express'; //paquete para servidor web
+import express, {json} from 'express'; //paquete para servidor web
+import categoriesControllers from './controllers/categories.controllers';
 import Connection from './database/connection';
 
 class App{
 
     public express : express.Application;
     private conecction : Connection | undefined; 
+
     constructor(){
         this.express = express();
+        this.middlewares();
         this.db();
-
+        this.routes();
+    }
+    middlewares(){
+        this.express.use(json());
+    }
+    routes(){
+      this.express.use('/api', categoriesControllers.router) ; 
     }
 
     db(){
